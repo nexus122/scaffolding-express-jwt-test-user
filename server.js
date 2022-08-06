@@ -11,14 +11,18 @@ app.use(bodyParser.json());
 
 // DECLARE JWT-secret
 const JWT_Secret = "your_secret_key";
-
+const PORT = 8080;
+const HOST = "0.0.0.0";
 var testUser = { email: "user@user.com", password: "1234" };
 
 app.get("/", (req, res) => {
   res.send(`
-  👋 Hola, si quieres un token haz un post a: /api/authenticate 🔐
-  - Usuario: user@user.com
-  - Password: 1234
+  <div>
+    <h1>👋 Hola</h1>
+    <p>🔐 Si quieres un token haz un post a: <b>/api/authenticate</b></p>
+    <p>- <b>Usuario</b>: user@user.com</p>
+    <p>- <b>Password</b>: 1234</p>
+  </div>
   `);
 });
 
@@ -49,4 +53,6 @@ app.post("/api/authenticate", (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log("Server started on port 5000"));
+app.listen(PORT, HOST, () =>
+  console.log(`Servidor encendido en: PORT -> ${PORT} | HOST -> ${HOST}`)
+);
