@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 // DECLARE JWT-secret
 const JWT_Secret = "your_secret_key";
-
+const port = process.env.PORT || 5000;
 var testUser = { email: "user@user.com", password: "1234" };
 
 app.get("/", (req, res) => {
@@ -49,4 +49,4 @@ app.post("/api/authenticate", (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log("Server started on port 5000"));
+app.listen(port, () => console.log("Server started on port 5000"));
