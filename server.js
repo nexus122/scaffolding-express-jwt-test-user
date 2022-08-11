@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 // DECLARE JWT-secret
 const JWT_Secret = "your_secret_key";
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const HOST = "0.0.0.0";
 
 var testUser = { email: "user@user.com", password: "1234" };
