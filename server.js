@@ -14,7 +14,10 @@ const JWT_Secret = "your_secret_key";
 const PORT = process.env.PORT || 8080;
 const HOST = "0.0.0.0";
 
-var testUser = { email: "user@user.com", password: "1234" };
+var testUsers = [
+  { email: "user@user.com", password: "1234", role: "Viwer" },
+  { email: "admin@user.com", password: "1234", role: "Admin" },
+];
 
 app.get("/", (req, res) => {
   res.send(`
@@ -29,17 +32,18 @@ app.get("/", (req, res) => {
 
 app.post("/api/authenticate", (req, res) => {
   if (req.body) {
-    console.log(req.body);
     var user = req.body;
-    console.log(user);
 
-    if (
-      testUser.email === req.body.email &&
-      testUser.password == req.body.password
-    ) {
-      var token = jwt.sign(user, JWT_Secret);
+    var foundUser = userExist(user, testUsers);
+
+    if (foundUser) {
+      var token = jwt.sign(foundUser, JWT_Secret);
       res.status(200).send({
-        signed_user: user,
+        signed_user: {
+          email: foundUser.email,
+          password: foundUser.password,
+          role: foundUser.role,
+        },
         token: token,
       });
     } else {
@@ -53,6 +57,12 @@ app.post("/api/authenticate", (req, res) => {
     });
   }
 });
+
+function userExist(user, users) {
+  return users.find(
+    (u) => u.email === user.email && u.password === user.password
+  );
+}
 
 app.listen(PORT, HOST, () =>
   console.log(`Servidor encendido en: PORT -> ${PORT} | HOST -> ${HOST}`)
